@@ -44,7 +44,7 @@ select '----------------------------------------------------------------' as '';
 select 'Create company_annual_finances' as '';
 
 create table company_annual_finances (
-    ticker varchar(10), -- NOTE that the column "ticker" in the finance csvs contained values but was unnamed, this was manually changed to be named ticker
+    ticker varchar(10), -- NOTE that the column "ticker" in the finance csvs contained values but was unnamed, this was changed to be named ticker from process_financial_data.py
     fiscal_year int,
     revenue double,
     revenue_growth double,
@@ -87,7 +87,7 @@ create index idx_trade_date on trade_histories(trade_date);
 load data infile '/var/lib/mysql-files/data/AMEX_NYSE_NASDAQ_stonks/fh_5yrs.csv' ignore into table trade_histories
     fields terminated by ','
     lines terminated by '\n'
-    ignore 6500000 lines
+    ignore 1 lines
     (trade_date,volume,open,high,low,close,adjclose,ticker);
 
 select '----------------------------------------------------------------' as '';
@@ -105,14 +105,14 @@ load data infile '/var/lib/mysql-files/data/articles/raw_partner_headlines.csv' 
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'
-    ignore 1800000 lines
+    ignore 1 lines
     (@throwaway,headline,url,publisher,date,@throwaway);
 
 load data infile '/var/lib/mysql-files/data/articles/raw_analyst_ratings.csv' ignore into table articles
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'
-    ignore 1800000 lines
+    ignore 1 lines
     (@throwaway,headline,url,publisher,date,@throwaway);
 
 select '----------------------------------------------------------------' as '';
@@ -130,14 +130,14 @@ load data infile '/var/lib/mysql-files/data/articles/raw_partner_headlines.csv' 
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'
-    ignore 1800000 lines
+    ignore 1 lines
     (@throwaway,@throwaway,url,@throwaway,@throwaway,ticker);
 
 load data infile '/var/lib/mysql-files/data/articles/raw_analyst_ratings.csv' ignore into table article_tickers
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'
-    ignore 1800000 lines
+    ignore 1 lines
     (@throwaway,@throwaway,url,@throwaway,@throwaway,ticker);
 
 -- Next create the tables for which there is no initial data
