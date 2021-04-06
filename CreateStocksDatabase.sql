@@ -101,14 +101,14 @@ create table articles (
     primary key (url)
 );
 
-load data infile '/var/lib/mysql-files/data/articles/raw_partner_headlines.csv' ignore into table articles
+load data infile '/var/lib/mysql-files/data/articles_processed/raw_partner_headlines.csv' ignore into table articles
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'
     ignore 1 lines
     (@throwaway,headline,url,publisher,date,@throwaway);
 
-load data infile '/var/lib/mysql-files/data/articles/raw_analyst_ratings.csv' ignore into table articles
+load data infile '/var/lib/mysql-files/data/articles_processed/raw_analyst_ratings.csv' ignore into table articles
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'
@@ -126,14 +126,14 @@ create table article_tickers (
     foreign key (ticker) references stocks(ticker)
 );
 
-load data infile '/var/lib/mysql-files/data/articles/raw_partner_headlines.csv' ignore into table article_tickers
+load data infile '/var/lib/mysql-files/data/articles_processed/raw_partner_headlines.csv' ignore into table article_tickers
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'
     ignore 1 lines
     (@throwaway,@throwaway,url,@throwaway,@throwaway,ticker);
 
-load data infile '/var/lib/mysql-files/data/articles/raw_analyst_ratings.csv' ignore into table article_tickers
+load data infile '/var/lib/mysql-files/data/articles_processed/raw_analyst_ratings.csv' ignore into table article_tickers
     fields terminated by ','
     enclosed by '"'
     lines terminated by '\n'

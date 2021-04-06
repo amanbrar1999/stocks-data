@@ -1,5 +1,6 @@
 import pandas
 import numpy as np
+import os
 
 years = ['2014', '2015', '2016', '2017', '2018']
 df = pandas.DataFrame(columns=['ticker', 'Year', 'Revenue', 'Revenue Growth', 'Cost of Revenue', 'Gross Profit', 'SG&A Expense', 'Operating Expenses', 'Operating Income', 'Interest Expense'])
@@ -9,5 +10,8 @@ for year in years:
     df_tmp['Year'] = year
     print(df_tmp)
     df = pandas.concat([df,df_tmp])
-    
+
+if not os.path.exists('data/financial_data_processed'):
+    os.makedirs('data/financial_data_processed')
+
 df.to_csv('data/financial_data_processed/All_Financial_Data.csv', index=False)
