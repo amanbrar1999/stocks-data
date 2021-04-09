@@ -1,5 +1,4 @@
 import pandas
-import numpy as np
 import os
 
 years = ['2014', '2015', '2016', '2017', '2018']

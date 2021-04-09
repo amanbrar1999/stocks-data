@@ -2,13 +2,19 @@ version: '3.1'
 services:
   db:
     image: mysql
-    restart: always
     command: --secure-file-priv='/var/lib/mysql-files'
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: test_db
     ports:
       - "3307:3306"
+    volumes:
+      - my-db:/var/lib/mysql
+      - $HOME/Documents/ECE356/project:/var/lib/mysql-files/
+  python:
+    image: python:3.6
+    command: >
+      bash -c "pip install pandas && cd /var/lib/mysql-files && python filter_ipo_csv.py && python process_articles.py && python process_financial_data.py"
     volumes:
       - my-db:/var/lib/mysql
       - $HOME/Documents/ECE356/project:/var/lib/mysql-files/
