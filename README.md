@@ -13,5 +13,7 @@ inside the container, run the following to create the database
 ```
 cd var/lib/mysql-files
 mysql -uroot -proot
+create database test_db
+use test_db
 source CreateStocksDatabase.sql
 ```

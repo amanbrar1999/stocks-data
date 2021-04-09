@@ -21,11 +21,11 @@ select 'Create stocks' as '';
 
 create table stocks (
     ticker varchar(10),
-    ipoDate date,
-    highDay0 double,
-    openDay0 double,
-    lowDay0 double,
-    volumeDay0 double,
+    ipo_date date,
+    high_day_0 double,
+    open_day_0 double,
+    low_day_0 double,
+    volume_day_0 double,
     primary key (ticker)
 );
 
@@ -33,8 +33,8 @@ load data infile '/var/lib/mysql-files/data/IPODataProcessed.csv' ignore into ta
     fields terminated by ','
     lines terminated by '\n'
     ignore 1 lines
-    (ticker,@year,@month,@day,highDay0,openDay0,lowDay0,volumeDay0)
-    set ipoDate = CAST(CONCAT(@year,"-",@month, "-", @day) as date);
+    (ticker,@year,@month,@day,high_day_0,open_day_0,low_day_0,volume_day_0)
+    set ipo_date = CAST(CONCAT(@year,"-",@month, "-", @day) as date);
 
 load data infile '/var/lib/mysql-files/data/AMEX_NYSE_NASDAQ_stonks/all_symbols.csv' ignore into table stocks
     lines terminated by '\n'
@@ -77,7 +77,7 @@ create table trade_histories (
     high double,
     low double,
     close double,
-    adjclose double,
+    adj_close double,
     primary key (ticker, trade_date),
     foreign key (ticker) references stocks(ticker)
 );
@@ -88,7 +88,7 @@ load data infile '/var/lib/mysql-files/data/AMEX_NYSE_NASDAQ_stonks/fh_5yrs.csv'
     fields terminated by ','
     lines terminated by '\n'
     ignore 1 lines
-    (trade_date,volume,open,high,low,close,adjclose,ticker);
+    (trade_date,volume,open,high,low,close,adj_close,ticker);
 
 select '----------------------------------------------------------------' as '';
 select 'Create articles' as '';
