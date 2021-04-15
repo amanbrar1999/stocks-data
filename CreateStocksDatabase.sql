@@ -26,7 +26,12 @@ create table stocks (
     open_day_0 double,
     low_day_0 double,
     volume_day_0 double,
-    primary key (ticker)
+    primary key (ticker),
+    check(ipo_date >= '1900-01-01' and ipo_date <= '3000-01-01'),
+    check(high_day_0 >= 0 and high_day_0 >= low_day_0),
+    check(volume_day_0 >= 0),
+    check(low_day_0 >= 0),
+    check(open_day_0 >= 0 and high_day_0 >= open_day_0 and open_day_0 >= low_day_0)
 );
 
 load data infile '/var/lib/mysql-files/data/IPODataProcessed.csv' ignore into table stocks
@@ -55,7 +60,8 @@ create table company_annual_finances (
     operating_income double,
     interest_expense double,
     primary key (ticker, fiscal_year),
-    foreign key (ticker) references stocks(ticker)
+    foreign key (ticker) references stocks(ticker),
+    check(fiscal_year >= 1900 and fiscal_year <= 3000)
 );
 
 create index idx_fiscal_year on company_annual_finances(fiscal_year);
@@ -79,7 +85,14 @@ create table trade_histories (
     close double,
     adj_close double,
     primary key (ticker, trade_date),
-    foreign key (ticker) references stocks(ticker)
+    foreign key (ticker) references stocks(ticker),
+    check(trade_date >= cast('1900-01-01 00:00:00' as datetime) and trade_date <= cast('3000-01-01 00:00:00' as datetime)),
+    check(volume >= 0),
+    check(open >= 0),
+    check(high >= 0 and high >= open and high >= low and high >= close and high >= adj_close),
+    check(low >= 0 and low <= open and low <= close and low <= adj_close),
+    check(close >= 0),
+    check(adj_close >= 0)
 );
 
 create index idx_trade_date on trade_histories(trade_date);
@@ -98,7 +111,9 @@ create table articles (
     headline varchar(500),
     date datetime,
     publisher varchar(255),
-    primary key (url)
+    primary key (url),
+    check(url like 'http%'),
+    check(date >= cast('1900-01-01 00:00:00' as datetime) and date <= cast('3000-01-01 00:00:00' as datetime))
 );
 
 load data infile '/var/lib/mysql-files/data/articles_processed/raw_partner_headlines.csv' ignore into table articles
@@ -123,7 +138,8 @@ create table article_tickers (
     ticker varchar(10),
     primary key (url, ticker),
     foreign key (url) references articles(url),
-    foreign key (ticker) references stocks(ticker)
+    foreign key (ticker) references stocks(ticker),
+    check(url like 'http%')
 );
 
 load data infile '/var/lib/mysql-files/data/articles_processed/raw_partner_headlines.csv' ignore into table article_tickers
@@ -162,7 +178,9 @@ create table comments (
     last_updated_at datetime,
     message varchar(255),
     primary key (comment_id),
-    foreign key (user_id) references users(user_id)
+    foreign key (user_id) references users(user_id),
+    check(created_at >= cast('1900-01-01 00:00:00' as datetime) and created_at <= cast('3000-01-01 00:00:00' as datetime)),
+    check(last_updated_at >= cast('1900-01-01 00:00:00' as datetime) and last_updated_at <= cast('3000-01-01 00:00:00' as datetime))
 );
 
 select '----------------------------------------------------------------' as '';

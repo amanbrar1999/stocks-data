@@ -11,12 +11,12 @@ services:
     volumes:
       - my-db:/var/lib/mysql
       - $HOME/Documents/ECE356/project:/var/lib/mysql-files/
-  python:
-    image: python:3.6
-    command: >
-      bash -c "pip install pandas && cd /var/lib/mysql-files && python filter_ipo_csv.py && python process_articles.py && python process_financial_data.py"
-    volumes:
-      - my-db:/var/lib/mysql
-      - $HOME/Documents/ECE356/project:/var/lib/mysql-files/
+  # python:
+  #   image: python:3.6
+  #   command: >
+  #     bash -c "pip install pandas && cd /var/lib/mysql-files && python filter_ipo_csv.py && python process_articles.py && python process_financial_data.py"
+  #   volumes:
+  #     - my-db:/var/lib/mysql
+  #     - $HOME/Documents/ECE356/project:/var/lib/mysql-files/
 volumes:
   my-db:
