@@ -22,12 +22,14 @@ select 'Create stocks' as '';
 create table stocks (
     ticker varchar(10),
     ipo_date date,
+    close_day_0 double,
     high_day_0 double,
     open_day_0 double,
     low_day_0 double,
     volume_day_0 double,
     primary key (ticker),
     check(ipo_date >= '1900-01-01' and ipo_date <= '3000-01-01'),
+    check(close_day_0 >= 0),
     check(high_day_0 >= 0 and high_day_0 >= low_day_0),
     check(volume_day_0 >= 0),
     check(low_day_0 >= 0),
@@ -38,7 +40,7 @@ load data infile '/var/lib/mysql-files/data/IPODataProcessed.csv' ignore into ta
     fields terminated by ','
     lines terminated by '\n'
     ignore 1 lines
-    (ticker,@year,@month,@day,high_day_0,open_day_0,low_day_0,volume_day_0)
+    (ticker,@year,@month,@day,close_day_0,high_day_0,open_day_0,low_day_0,volume_day_0)
     set ipo_date = CAST(CONCAT(@year,"-",@month, "-", @day) as date);
 
 load data infile '/var/lib/mysql-files/data/AMEX_NYSE_NASDAQ_stonks/all_symbols.csv' ignore into table stocks
