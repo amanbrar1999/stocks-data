@@ -98,6 +98,9 @@ create table trade_histories (
 );
 
 create index idx_trade_date on trade_histories(trade_date);
+ALTER TABLE trade_histories ADD INDEX trade_histories_idx_ticker_trade_date_volume (ticker,trade_date,volume);
+ALTER TABLE trade_histories ADD INDEX trade_histories_idx_ticker_trade_date_high (ticker,trade_date,high);
+ALTER TABLE trade_histories ADD INDEX trade_histories_idx_ticker_trade_date_low (ticker,trade_date,low);
 
 load data infile '/var/lib/mysql-files/data/AMEX_NYSE_NASDAQ_stonks/fh_5yrs.csv' ignore into table trade_histories
     fields terminated by ','
